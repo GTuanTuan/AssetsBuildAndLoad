@@ -17,9 +17,13 @@ MonoBehaviour:
   - .meta
   - .db
   - .gitignore
-  Mutil_Contains: []
-  Mutil_EndWith: []
-  Single: []
+  Mutil_Contains:
+  - bigbg
+  Mutil_EndWith:
+  - _
+  Single:
+  - res/single
   Mutil:
   - res/mutil
   OutPath: E:/Test/TestBuild
+  buildType: 0

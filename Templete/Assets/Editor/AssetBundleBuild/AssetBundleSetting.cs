@@ -7,6 +7,11 @@ using UnityEditor;
 using UnityEngine;
 namespace Asset
 {
+    public enum BuildType
+    {
+        All,
+        Update
+    }
     [Serializable]
     public class AssetBundleSetting : ScriptableObject
     {
@@ -17,7 +22,7 @@ namespace Asset
         public List<string> Single = new List<string>();
         public List<string> Mutil = new List<string>();
         public string OutPath;
-
+        public BuildType buildType = BuildType.All;
         private static AssetBundleSetting _instance;
         private static readonly object obj=new object();
         public static AssetBundleSetting Instance

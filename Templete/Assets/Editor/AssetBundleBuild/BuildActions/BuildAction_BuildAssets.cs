@@ -8,19 +8,29 @@ using UnityEngine;
 namespace Asset
 {
 
-    public class BundleAction_BuildAssets : BuildAction
+    public class BuildAction_BuildAssets : BuildAction
     {
 
         public override BuildState OnUpdate()
         {
             BuildAssetBundles();
+            SaveLastAssetMap();
             return BuildState.Success;
         }
 
         void BuildAssetBundles()
         {
             List<AssetBundleBuild> list = new List<AssetBundleBuild>();
-            foreach (KeyValuePair<string, AssetInfo> dict in AssetBuildEnv.assetDict)
+            Dictionary<string, AssetInfo> assetDict = new Dictionary<string, AssetInfo>();
+            if (AssetBuildEnv.setting.buildType == BuildType.All)
+            {
+                assetDict = AssetBuildEnv.all_assetDict;
+            }
+            else
+            {
+                assetDict = AssetBuildEnv.update_assetDict;
+            }
+            foreach (KeyValuePair<string, AssetInfo> dict in assetDict)
             {
                 var info = dict.Value;
                 AssetBundleBuild build = dict.Value.GetAssetBundle();
@@ -40,25 +50,27 @@ namespace Asset
                 Directory.CreateDirectory(out_path);
             }
             // 开始打包
-            BuildPipeline.BuildAssetBundles(out_path, list.ToArray(), BuildAssetBundleOptions.None, AssetBuildEnv.setting.buildTarget);
+            BuildPipeline.BuildAssetBundles(out_path, list.ToArray(), BuildAssetBundleOptions.None, AssetBuildEnv.setting.buildTarget); 
+        }
+        void SaveLastAssetMap()
+        {
             StringBuilder asset_map = new StringBuilder("");
-            foreach (var keyValue in AssetBuildEnv.assetDict)
+            foreach (var keyValue in AssetBuildEnv.LastAssetMap)
             {
-                if(keyValue.Value.subFiles!=null && keyValue.Value.subFiles.Count > 0)
+                if (keyValue.Value.subFiles != null && keyValue.Value.subFiles.Count > 0)
                 {
                     foreach (var file in keyValue.Value.subFiles)
                     {
-                        Debug.Log("更新:" + file.FullName);
                         asset_map.AppendLine(file.FullName + "|" + file.LastWriteTime);
                     }
                 }
                 else
                 {
-                    Debug.Log("更新:" + keyValue.Key);
                     asset_map.AppendLine(keyValue.Key + "|" + keyValue.Value.LastWriteTime);
                 }
             }
             File.WriteAllText($"{AssetBuildEnv.setting.OutPath}/asset_map.txt", asset_map.ToString());
+            AssetBuildEnv.LastAssetMap.Clear();
         }
     }
 }

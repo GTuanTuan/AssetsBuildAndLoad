@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
+using UnityEngine;
+
 namespace Asset
 {
     public enum AssetType
@@ -19,13 +22,6 @@ namespace Asset
         private string fullname;
         public string FullName { get { fullname = root + name;  return fullname; }set { fullname = value; } }  // 全路径
         public List<AssetInfo> subFiles = new List<AssetInfo>(); // 孩子文件
-        public string OriginPath
-        {
-            get
-            {
-                return "Assets/" + root + name;
-            }
-        }
 
         private string targetPath = null;
         public string TargetPath
@@ -83,11 +79,26 @@ namespace Asset
 
             }
         }
-        public bool IsChange()
+        public bool IsChange(FileInfo fileInfo)
         {
-            return (AssetBuildEnv.LastAssetMap==null||
-                !AssetBuildEnv.LastAssetMap.ContainsKey(FullName) ||               //上次打包没有存在，是这次新增的
-                (AssetBuildEnv.LastAssetMap[FullName].LastWriteTime!= LastWriteTime)); //文件有进行修改的
+            //return true;
+            AssetBuildEnv.real_assetDict[FullName]= this;
+            if (File.Exists(fileInfo.FullName + ".meta"))
+            {
+                FileInfo meta = new FileInfo(fileInfo.FullName + ".meta");
+                if(meta.LastWriteTime.ToFileTime()> LastWriteTime)
+                {
+                    LastWriteTime = meta.LastWriteTime.ToFileTime();
+                }
+            }
+            bool ischange = (!AssetBuildEnv.LastAssetMap.ContainsKey(FullName) ||               //上次打包没有存在，是这次新增的
+                (AssetBuildEnv.LastAssetMap[FullName].LastWriteTime != LastWriteTime)); //文件有进行修改的
+            if (ischange)
+            {
+                Debug.Log($"更新:{FullName}时间:{LastWriteTime}");
+                AssetBuildEnv.LastAssetMap[FullName] = this;
+            }
+            return ischange;
         }
     }
     

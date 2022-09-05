@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Asset
 {
-    public class BundleAction_Scan : BuildAction
+    public class BuildAction_Scan : BuildAction
     {
         public override BuildState OnUpdate()
         {
@@ -15,11 +15,11 @@ namespace Asset
         }
         void Scan()
         {
-            if (AssetBuildEnv.assetDict == null)
-            {
-                AssetBuildEnv.assetDict = new Dictionary<string, AssetInfo>();
-            }
-            AssetBuildEnv.assetDict.Clear();
+            //if (AssetBuildEnv.update_assetDict == null)
+            //{
+            //    AssetBuildEnv.update_assetDict = new Dictionary<string, AssetInfo>();
+            //}
+            //AssetBuildEnv.update_assetDict.Clear();
             foreach (string root in AssetBuildEnv.setting.Single)
             {
                 string root1 = Application.dataPath+"/" + root;
@@ -48,8 +48,9 @@ namespace Asset
                     info.LastWriteTime = file.LastWriteTime.ToFileTime();
                     info.root = root;
                     info.name = file.Name;
-                    if(info.IsChange())
-                        AssetBuildEnv.assetDict.Add(info.FullName, info);
+                    AssetBuildEnv.all_assetDict.Add(info.FullName, info);
+                    if (info.IsChange(file))
+                        AssetBuildEnv.update_assetDict.Add(info.FullName, info);
                 }
             }
             //遍历当前文件夹的下一层的子文件夹
@@ -81,8 +82,9 @@ namespace Asset
                         info.LastWriteTime = file.LastWriteTime.ToFileTime();
                         info.root = root;
                         info.name = file.Name;
-                        if (info.IsChange())
-                            AssetBuildEnv.assetDict.Add(info.FullName, info);
+                        AssetBuildEnv.all_assetDict.Add(info.FullName, info);
+                        if (info.IsChange(file))
+                            AssetBuildEnv.update_assetDict.Add(info.FullName, info);
                     }
                 }
                 //多个文件打一个包
@@ -102,11 +104,12 @@ namespace Asset
                         info.root = root;
                         info.name = file.Name;
                         mInfo.subFiles.Add(info);
-                        if (info.IsChange()) 
+                        if (info.IsChange(file)) 
                             ischange = true;
                     }
-                    if(ischange)
-                        AssetBuildEnv.assetDict.Add(mInfo.FullName, mInfo);
+                    AssetBuildEnv.all_assetDict.Add(mInfo.FullName, mInfo);
+                    if (ischange)
+                        AssetBuildEnv.update_assetDict.Add(mInfo.FullName, mInfo);
                 }
             }
         }

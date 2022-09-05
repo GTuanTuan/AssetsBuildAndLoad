@@ -8,6 +8,7 @@ namespace Asset
         public BuildAction_Start()
         {
             Debug.Log("<color=yellow>BuildMechine</color> -> <color=orange>" + this.GetType().Name + "</color>");
+            AssetBuildEnv.Clear();
         }
         public override BuildState OnUpdate()
         {

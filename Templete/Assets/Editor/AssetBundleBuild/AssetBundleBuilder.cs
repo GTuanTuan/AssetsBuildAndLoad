@@ -15,8 +15,9 @@ namespace Asset
         {
             BuildMechine.NewPipeline().AddActions(
                 //new BuildAction_ForTest(),
-                new BundleAction_Scan(),
-                new BundleAction_BuildAssets()
+                new BuildAction_Scan(),
+                new BuildAction_DeleteUeslessAssets(),
+                new BuildAction_BuildAssets()
             ).Run();
         }
         [MenuItem("快捷键/Special Command %g")]
