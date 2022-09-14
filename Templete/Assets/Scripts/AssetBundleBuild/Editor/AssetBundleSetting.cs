@@ -21,6 +21,7 @@ namespace Asset
         public List<string> Mutil_EndWith = new List<string>();
         public List<string> Single = new List<string>();
         public List<string> Mutil = new List<string>();
+        public bool UseEditor = true;
         public string OutPath;
         public BuildType buildType = BuildType.All;
         private static AssetBundleSetting _instance;

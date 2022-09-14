@@ -25,5 +25,6 @@ MonoBehaviour:
   - res/single
   Mutil:
   - res/mutil
+  UseEditor: 1
   OutPath: E:/Test/TestBuild
   buildType: 0
