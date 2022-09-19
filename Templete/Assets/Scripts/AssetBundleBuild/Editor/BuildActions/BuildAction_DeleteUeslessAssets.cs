@@ -45,7 +45,7 @@ namespace Asset
         {
             foreach (KeyValuePair<string, AssetInfo> kv in AssetBuildEnv.LastAssetMap)
             {
-                if (!AssetBuildEnv.real_assetDict.ContainsKey(kv.Key))
+                if (!AssetBuildEnv.real_assetDict.ContainsKey(kv.Key) && CheckCanDelete(kv.Value.FullName))
                 {
                     Debug.Log($"删除文件{kv.Value.FullName}");
                     AssetBuildEnv.useless_assetDict[kv.Key] = kv.Value;
@@ -73,6 +73,15 @@ namespace Asset
             {
                 File.Delete(manifestPath);
             }
+        }
+        bool CheckCanDelete(string fullName)
+        {
+            bool can_delete = true;
+            foreach (string str in AssetBuildEnv.setting.DontDelete)
+            {
+                if (fullName.Contains(str)) can_delete = false;
+            }
+            return can_delete;
         }
     }
 }

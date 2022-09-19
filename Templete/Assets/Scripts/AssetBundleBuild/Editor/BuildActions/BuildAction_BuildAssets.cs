@@ -36,6 +36,11 @@ namespace Asset
                 AssetBundleBuild build = dict.Value.GetAssetBundle();
                 if (build.assetNames.Length > 0)
                 {
+                    foreach (string str in AssetBuildEnv.setting.OutPathIgnore)
+                    {
+                        build.assetBundleName = build.assetBundleName.Replace(str, "");
+                    }
+                    //build.assetBundleName = build.assetBundleName.Replace("_/","/");
                     list.Add(build);
                 }
             }

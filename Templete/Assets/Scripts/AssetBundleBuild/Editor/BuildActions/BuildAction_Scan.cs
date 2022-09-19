@@ -115,6 +115,7 @@ namespace Asset
         }
         bool IsMutil(string dir)
         {
+            dir = dir.Remove(dir.Length - 1);
             foreach (string search in AssetBuildEnv.setting.Mutil_Contains)
             {
                 if (dir.Contains(search))

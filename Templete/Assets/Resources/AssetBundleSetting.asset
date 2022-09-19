@@ -17,14 +17,16 @@ MonoBehaviour:
   - .meta
   - .db
   - .gitignore
+  - .ini
   Mutil_Contains:
   - bigbg
   Mutil_EndWith:
   - _
-  Single:
-  - res/single
+  Single: []
   Mutil:
-  - res/mutil
+  - poj_assets/res/resource
+  DontDelete: []
   UseEditor: 1
   OutPath: E:/Test/TestBuild
+  OutPathIgnore: []
   buildType: 0
