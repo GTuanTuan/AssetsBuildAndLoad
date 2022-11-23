@@ -55,8 +55,7 @@ namespace Asset
         public string GetKeyByPath(string path)
         {
             string key = path.Replace("\\\\", ".").Replace("//", ".").Replace("\\", ".").Replace("/", ".");
-            FileInfo fileInfo = new FileInfo(path);
-            if (File.Exists(path) && fileInfo.Extension!="") key = key.Replace(fileInfo.Extension, "");
+            if (Path.HasExtension(path)) key = key.Replace(Path.GetExtension(path), "");
             return key;
         }
     }
