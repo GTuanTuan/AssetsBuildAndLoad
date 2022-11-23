@@ -21,25 +21,27 @@ namespace Asset
         void BuildAssetBundles()
         {
             List<AssetBundleBuild> list = new List<AssetBundleBuild>();
-            Dictionary<string, AssetInfo> assetDict = new Dictionary<string, AssetInfo>();
-            if (AssetBuildEnv.setting.buildType == BuildType.All)
-            {
-                assetDict = AssetBuildEnv.all_assetDict;
-            }
-            else
-            {
-                assetDict = AssetBuildEnv.update_assetDict;
-            }
+            //Dictionary<string, AssetInfo> assetDict = new Dictionary<string, AssetInfo>();
+            //if (AssetBuildEnv.setting.buildType == BuildType.All)
+            //{
+            //    assetDict = AssetBuildEnv.all_assetDict;
+            //}
+            //else
+            //{
+            //    //assetDict = AssetBuildEnv.all_assetDict;
+            //    assetDict = AssetBuildEnv.update_assetDict;
+            //}
+            Dictionary<string, AssetInfo> assetDict = AssetBuildEnv.all_assetDict;
             foreach (KeyValuePair<string, AssetInfo> dict in assetDict)
             {
                 var info = dict.Value;
                 AssetBundleBuild build = dict.Value.GetAssetBundle();
                 if (build.assetNames.Length > 0)
                 {
-                    foreach (string str in AssetBuildEnv.setting.OutPathIgnore)
-                    {
-                        build.assetBundleName = build.assetBundleName.Replace(str, "");
-                    }
+                    //foreach (string str in AssetBuildEnv.setting.OutPathIgnore)
+                    //{
+                    //    build.assetBundleName = build.assetBundleName.Replace(str, "");
+                    //}
                     //build.assetBundleName = build.assetBundleName.Replace("_/","/");
                     list.Add(build);
                 }

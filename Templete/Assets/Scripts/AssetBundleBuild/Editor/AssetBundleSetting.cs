@@ -31,9 +31,9 @@ namespace Asset
         public bool UseEditor = true;
         [Header("输出路径")]
         public string OutPath;
-        [Header("输出忽略路径")]
-        public List<string> OutPathIgnore = new List<string>();
-        public BuildType buildType = BuildType.All;
+        //[Header("输出忽略路径")]
+        //public List<string> OutPathIgnore = new List<string>();
+        //public BuildType buildType = BuildType.All;
         private static AssetBundleSetting _instance;
         private static readonly object obj=new object();
         public static AssetBundleSetting Instance
@@ -51,6 +51,13 @@ namespace Asset
                 }
                 return _instance;
             }
+        }
+        public string GetKeyByPath(string path)
+        {
+            string key = path.Replace("\\\\", ".").Replace("//", ".").Replace("\\", ".").Replace("/", ".");
+            FileInfo fileInfo = new FileInfo(path);
+            if (File.Exists(path) && fileInfo.Extension!="") key = key.Replace(fileInfo.Extension, "");
+            return key;
         }
     }
 }

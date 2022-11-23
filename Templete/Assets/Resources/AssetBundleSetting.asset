@@ -22,11 +22,14 @@ MonoBehaviour:
   - bigbg
   Mutil_EndWith:
   - _
-  Single: []
+  Single:
+  - poj_assets/res/csb
+  - poj_assets/res/fonts
+  - poj_assets/res/role
+  - poj_assets/res/sound
   Mutil:
   - poj_assets/res/resource
   DontDelete: []
   UseEditor: 1
-  OutPath: E:/Test/TestBuild
+  OutPath: E:\BuildRes\AssetsBuildAndLoad
   OutPathIgnore: []
-  buildType: 0

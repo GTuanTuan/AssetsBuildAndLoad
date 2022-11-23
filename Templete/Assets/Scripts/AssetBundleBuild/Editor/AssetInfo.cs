@@ -92,7 +92,8 @@ namespace Asset
                 }
             }
             bool ischange = (!AssetBuildEnv.LastAssetMap.ContainsKey(FullName) ||               //上次打包没有存在，是这次新增的
-                (AssetBuildEnv.LastAssetMap[FullName].LastWriteTime != LastWriteTime)); //文件有进行修改的
+                (AssetBuildEnv.LastAssetMap[FullName].LastWriteTime != LastWriteTime));         //文件有进行修改的
+            //ischange = ischange && !(fileInfo.FullName.EndsWith("prefab"));                     //Prefab不能单个重新打包，包可能变大，会把字体,图片什么的打进去
             if (ischange)
             {
                 Debug.Log($"更新:{FullName}时间:{LastWriteTime}");
